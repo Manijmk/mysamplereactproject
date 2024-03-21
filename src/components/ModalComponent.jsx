@@ -103,7 +103,7 @@ function ModalComponent({ showModal, handleClose }) {
 
         try {
             const res = await SaveSchema(obj);
-            if (res.status === 200) {
+            if (res?.statusCode === 200) {
                 <Snackbar open={open} autoHideDuration={4000} onClose={handleToastClose}>
                     <Alert
                         onClose={handleToastClose}
@@ -114,14 +114,30 @@ function ModalComponent({ showModal, handleClose }) {
                         Saved Successfully !
                     </Alert>
                 </Snackbar>
-                // toast.success("Profile upload successfully");
             } else {
-                // toast.error("Profile upload failed");
-                console.error("Error:", error);
+                console.error("Error:", "error");
+                <Snackbar open={open} autoHideDuration={4000} onClose={handleToastClose}>
+                    <Alert
+                        onClose={handleToastClose}
+                        severity="danger"
+                        variant="filled"
+                        sx={{ width: '100%' }}
+                    >
+                        Error Occured ! Try Again !
+                    </Alert>
+                </Snackbar>
             }
         } catch (error) {
-            console.error("Error:", error);
+            console.error("Error:", "error");
         }
+    }
+
+    function handleCancel() {
+        setAddedSchemaValue([]);
+        setData(initialData);
+        setDropdownValue('');
+        setSegmentName('')
+        handleClose()
     }
 
     return (
@@ -180,7 +196,7 @@ function ModalComponent({ showModal, handleClose }) {
 
                 <div style={{ position: 'fixed', bottom: 0, left: 0, padding: '10px' }}>
                     <Button variant="contained" style={{ color: "#c1eef4" }} onClick={handleSave}>Save the Segment</Button>
-                    <Button variant="outlined" style={{ marginLeft: '10px' }} >Cancel</Button>
+                    <Button variant="outlined" style={{ marginLeft: '10px' }} onClick={handleCancel}>Cancel</Button>
                 </div>
 
             </Box>
